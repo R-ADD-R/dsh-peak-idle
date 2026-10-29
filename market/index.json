@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "title": {
+    "en": "R-ADD-R DSH Plugins",
+    "zh": "R-ADD-R 的 DSH 插件"
+  },
+  "description": {
+    "en": "DeepSeek Harness plugins maintained by R-ADD-R.",
+    "zh": "R-ADD-R 维护的 DeepSeek Harness 插件。"
+  },
+  "plugins": [
+    {
+      "name": "dsh-fg",
+      "title": {
+        "en": "Peak & idle indicator",
+        "zh": "峰谷时段提醒"
+      },
+      "description": {
+        "en": "DeepSeek billing-period chip, countdown and reminders beside the model selector.",
+        "zh": "在模型选择器旁显示 DeepSeek 计费时段、切换倒计时与提醒。"
+      },
+      "icon": "../icon.svg",
+      "author": "R-ADD-R",
+      "homepage": "https://github.com/R-ADD-R/dsh-peak-idle#readme",
+      "repository": {
+        "url": "https://github.com/R-ADD-R/dsh-peak-idle"
+      },
+      "keywords": [
+        "deepseek",
+        "peak",
+        "idle",
+        "billing",
+        "峰谷",
+        "繁忙",
+        "空闲",
+        "提醒"
+      ],
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1793282973,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/R-ADD-R/dsh-peak-idle",
+            "commit": "224e61d104f4e961e5217aa90ccbf2b9366be2c3"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.2 <0.3.0"
+          }
+        }
+      ]
+    }
+  ]
+}
