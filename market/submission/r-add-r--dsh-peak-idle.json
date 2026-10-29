@@ -1,0 +1,12 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "R-ADD-R/dsh-peak-idle",
+  "name": "dsh-fg",
+  "repository": "https://github.com/R-ADD-R/dsh-peak-idle",
+  "category": "ui",
+  "description": {
+    "en": "Displays DeepSeek peak and idle token billing periods beside the model selector, with a countdown, daily timeline, optional reminders and light/dark theme support.",
+    "zh": "在模型选择器旁显示 DeepSeek 繁忙／空闲 token 计费时段，提供切换倒计时、今日时段条和可关闭的提醒，适配深浅主题。"
+  },
+  "added": "2026-10-29"
+}

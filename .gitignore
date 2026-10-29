@@ -1,0 +1,13 @@
+node_modules/
+.reference/
+preview-dist/
+playwright-report/
+test-results/
+artifacts/
+*.log
+.env
+.env.*
+!.env.example
+.npmrc
+releases/*.tgz
+.DS_Store

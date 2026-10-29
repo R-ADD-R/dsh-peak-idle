@@ -1,0 +1,117 @@
+import { test, expect } from '@playwright/test'
+
+test('peak icon opens pricing details; Escape and outside click dismiss it', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/?scene=peak&theme=light')
+  const trigger = page.getByRole('button', { name: /DeepSeek 繁忙期/ })
+  await trigger.click()
+  const dialog = page.getByRole('dialog', { name: /计费时段/ })
+  await expect(dialog).toBeVisible()
+  await expect(dialog).toContainText('繁忙期标准价')
+  await expect(dialog).toContainText('今天 18:00')
+  const earlier = await page.locator('.dsh-fg__countdown').innerText()
+  await expect(page.locator('.dsh-fg__countdown')).not.toHaveText(earlier, { timeout: 2500 })
+  await page.keyboard.press('Escape')
+  await expect(dialog).not.toBeVisible()
+  await expect(trigger).toBeFocused()
+  await trigger.click()
+  await page.locator('.preview-mark').click()
+  await expect(dialog).not.toBeVisible()
+  expect(errors).toEqual([])
+})
+
+test('idle details and reminder preference survive a reload', async ({ page }) => {
+  await page.goto('/?scene=idle&theme=light')
+  await page.getByRole('button', { name: /DeepSeek 空闲期/ }).click()
+  await expect(page.getByRole('dialog')).toContainText('繁忙期的 50%')
+  const toggle = page.getByRole('switch', { name: '时段切换提醒' })
+  await expect(toggle).toBeChecked()
+  await toggle.uncheck()
+  await page.reload()
+  await page.getByRole('button', { name: /DeepSeek 空闲期/ }).click()
+  await expect(toggle).not.toBeChecked()
+})
+
+for (const scene of ['weekend', 'holiday']) {
+  test(`${scene} has an all-idle timeline and an accurate next business period`, async ({ page }) => {
+    await page.goto(`/?scene=${scene}`)
+    await page.getByRole('button', { name: /DeepSeek 空闲期/ }).click()
+    await expect(page.getByRole('dialog')).toContainText('全天空闲')
+    await expect(page.locator('.dsh-fg__segment--peak')).toHaveCount(0)
+    await expect(page.locator('.dsh-fg__next-time')).toHaveText(scene === 'holiday' ? '10 月 8 日 09:00' : '11 月 2 日 09:00')
+  })
+}
+
+test('unknown calendar does not advertise a verified peak price', async ({ page }) => {
+  await page.goto('/?scene=unknown')
+  await page.getByRole('button', { name: /时段待核验/ }).click()
+  await expect(page.getByRole('dialog')).toContainText('尚未收录 2027 年节假日')
+  await expect(page.getByRole('dialog')).toContainText('以官方为准')
+})
+
+test('updates icon and shows exactly one reminder when the time crosses a boundary', async ({ page }) => {
+  await page.goto('/?scene=boundary')
+  await expect(page.getByRole('button', { name: /DeepSeek 繁忙期/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /DeepSeek 空闲期/ })).toBeVisible({ timeout: 8000 })
+  await expect(page.getByRole('status')).toContainText('已进入空闲期')
+  await expect(page.getByRole('status')).toHaveCount(1)
+  await page.getByRole('button', { name: '关闭时段提醒' }).click()
+  await expect(page.getByRole('status')).toHaveCount(0)
+})
+
+test('small screen and dark theme keep the panel inside the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 720 })
+  await page.goto('/?scene=idle&theme=dark')
+  const trigger = page.getByRole('button', { name: /DeepSeek 空闲期/ })
+  await expect(trigger.locator('.dsh-fg__label')).toBeHidden()
+  await trigger.click()
+  const bounds = await page.getByRole('dialog').boundingBox()
+  expect(bounds!.x).toBeGreaterThanOrEqual(12)
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(363)
+  expect(bounds!.y).toBeGreaterThanOrEqual(12)
+  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(708)
+  const bg = await page.getByRole('dialog').evaluate(el => getComputedStyle(el).backgroundColor)
+  expect(bg).not.toBe('rgb(255, 255, 255)')
+  await expect(page.getByRole('switch', { name: '时段切换提醒' })).toBeVisible()
+})
+
+test('keyboard users can open the icon, toggle reminders and return to composing', async ({ page }) => {
+  await page.goto('/?scene=peak')
+  const trigger = page.getByRole('button', { name: /DeepSeek 繁忙期/ })
+  await trigger.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('dialog')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('button', { name: '关闭计费时段' })).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('switch', { name: '时段切换提醒' })).toBeFocused()
+  await page.keyboard.press('Space')
+  await expect(page.getByRole('switch')).not.toBeChecked()
+  await page.keyboard.press('Escape')
+  await expect(trigger).toBeFocused()
+  await page.getByRole('textbox').fill('测试草稿')
+  await trigger.click()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('textbox')).toHaveValue('测试草稿')
+})
+
+test('hover hint can be dismissed with Escape', async ({ page }) => {
+  await page.goto('/?scene=idle')
+  await page.getByRole('button', { name: /DeepSeek 空闲期/ }).hover()
+  await expect(page.getByRole('tooltip')).toContainText('后进入繁忙期')
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('tooltip')).not.toBeVisible()
+})
+
+test('short viewport scrolls the panel without clipping its controls', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 400 })
+  await page.goto('/?scene=peak')
+  await page.getByRole('button', { name: /DeepSeek 繁忙期/ }).click()
+  const dialog = page.getByRole('dialog')
+  const bounds = await dialog.boundingBox()
+  expect(bounds!.y).toBeGreaterThanOrEqual(12)
+  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(388)
+  await page.getByRole('switch').uncheck()
+  await expect(page.getByRole('switch')).not.toBeChecked()
+})
