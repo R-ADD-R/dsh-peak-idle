@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { beijingTime, classify, dayWindows, formatCountdown, formatNextTime, getPeriodInfo } from '../src/period.ts'
+import { beijingTime, classify, compactCountdown, dayWindows, formatCountdown, formatNextTime, getPeriodInfo, upcomingPeriods } from '../src/period.ts'
 
 const at = (time: string) => Date.parse(time.includes('+') || time.endsWith('Z') ? time : `${time}+08:00`)
 
@@ -50,6 +50,24 @@ describe('DeepSeek 官方峰谷时段（北京时间）', () => {
     assert.equal(formatNextTime(getPeriodInfo(at('2026-10-28T20:00:00'))), '明天 09:00')
   })
 
+  it('finds the beginning of continuous periods across nights, weekends and holidays', () => {
+    for (const [current, start] of [
+      ['2026-10-28T15:00:00', '2026-10-28T14:00:00'],
+      ['2026-10-28T12:00:00', '2026-10-28T12:00:00'],
+      ['2026-10-29T08:00:00', '2026-10-28T18:00:00'],
+      ['2026-11-01T23:00:00', '2026-10-30T18:00:00'],
+      ['2026-10-01T10:00:00', '2026-09-30T18:00:00'],
+    ]) assert.equal(getPeriodInfo(at(current)).startedAt, at(start))
+  })
+
+  it('labels toolbar durations unambiguously including days and the last few seconds', () => {
+    assert.equal(compactCountdown(73 * 3600_000), '3d 1h')
+    assert.equal(compactCountdown(2 * 3600_000 + 34 * 60_000), '2h 34m')
+    assert.equal(compactCountdown(60_000), '1m')
+    assert.equal(compactCountdown(2_001), '3s')
+    assert.equal(compactCountdown(-1), '0s')
+  })
+
   it('marks unsupported holiday calendars rather than claiming a peak price', () => {
     assert.equal(classify(at('2027-01-04T10:00:00')).kind, 'unverified')
     assert.equal(classify(at('2027-01-04T20:00:00')).kind, 'idle')
@@ -60,6 +78,34 @@ describe('DeepSeek 官方峰谷时段（北京时间）', () => {
   it('renders an all-idle timeline for holidays and weekends', () => {
     assert.deepEqual(dayWindows(at('2026-10-01T10:00:00')), [{ start: 0, end: 24, kind: 'idle' }])
     assert.equal(dayWindows(at('2026-10-28T10:00:00')).filter(item => item.kind === 'peak').length, 2)
+  })
+
+  it('covers the next 24 hours continuously across midnight and clips both endpoints', () => {
+    const start = at('2026-10-28T15:26:18')
+    const spans = upcomingPeriods(start)
+    assert.deepEqual(spans, [
+      { startAt: start, endAt: at('2026-10-28T18:00:00'), kind: 'peak' },
+      { startAt: at('2026-10-28T18:00:00'), endAt: at('2026-10-29T09:00:00'), kind: 'idle' },
+      { startAt: at('2026-10-29T09:00:00'), endAt: at('2026-10-29T12:00:00'), kind: 'peak' },
+      { startAt: at('2026-10-29T12:00:00'), endAt: at('2026-10-29T14:00:00'), kind: 'idle' },
+      { startAt: at('2026-10-29T14:00:00'), endAt: at('2026-10-29T15:26:18'), kind: 'peak' },
+    ])
+    assert.equal(spans.reduce((sum, span) => sum + span.endAt - span.startAt, 0), 24 * 3600_000)
+  })
+
+  it('shows complete idle horizons over weekends and holidays without artificial midnight splits', () => {
+    for (const current of ['2026-10-31T10:26:18', '2026-10-01T10:26:18']) {
+      const start = at(current)
+      assert.deepEqual(upcomingPeriods(start), [{ startAt: start, endAt: start + 24 * 3600_000, kind: 'idle' }])
+    }
+    const sunday = upcomingPeriods(at('2026-11-01T20:00:00'))
+    assert.equal(sunday[0].endAt, at('2026-11-02T09:00:00'))
+    assert.equal(sunday[1].kind, 'peak')
+  })
+
+  it('marks unknown-year daytime windows instead of claiming a verified future peak', () => {
+    const spans = upcomingPeriods(at('2026-12-31T20:00:00'))
+    assert.deepEqual(spans.map(span => span.kind), ['idle', 'unverified', 'idle', 'unverified', 'idle'])
   })
 
   it('formats long and subsecond countdowns without drifting or negative values', () => {

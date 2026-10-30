@@ -5,8 +5,8 @@
   "repository": "https://github.com/R-ADD-R/dsh-peak-idle",
   "category": "ui",
   "description": {
-    "en": "Displays DeepSeek peak and idle token billing periods beside the model selector, with a countdown, daily timeline, optional reminders and light/dark theme support.",
-    "zh": "在模型选择器旁显示 DeepSeek 繁忙／空闲 token 计费时段，提供切换倒计时、今日时段条和可关闭的提醒，适配深浅主题。"
+    "en": "A minimal sun/moon indicator with remaining billing-period duration, a blue discount badge, official token pricing link and optional reminders.",
+    "zh": "在模型选择器旁显示太阳／月亮与时段剩余时间，提供蓝色优惠标记、官方 Token 定价链接及可选提醒。"
   },
   "added": "2026-10-29"
 }

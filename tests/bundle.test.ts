@@ -16,9 +16,9 @@ describe('DSH distributable', () => {
     const modules: Record<string, unknown> = { react: React, 'react-dom': ReactDOM, 'react/jsx-runtime': jsx }
     const plugin = registration!.factory(id => { requested.push(id); assert.ok(id in modules, `unexpected external: ${id}`); return modules[id] })
     assert.equal(typeof plugin.apply, 'function')
-    assert.deepEqual(Array.from(plugin.inject as string[]), ['slots'])
+    assert.deepEqual(Array.from(plugin.inject as string[]), ['slots', 'connection'])
     assert.ok(requested.includes('react'))
-    assert.ok(!source.includes('fetch('), 'client must not make billing or model requests')
+    assert.ok(!source.includes('fetch('), 'client must use the DSH carrier rather than browser cross-origin requests')
   })
 
   it('ships a resolvable host entry and activates its bundle patch', async () => {

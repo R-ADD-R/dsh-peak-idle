@@ -10,4 +10,5 @@ artifacts/
 !.env.example
 .npmrc
 releases/*.tgz
+!releases/dsh-fg-1.1.1.tgz
 .DS_Store

@@ -8,6 +8,7 @@ const HOUR = 60 * 60 * 1000
 export type PeriodKind = 'peak' | 'idle' | 'unverified'
 export type DayReason = 'weekday' | 'weekend' | 'holiday' | 'calendar-unknown'
 export type TimeWindow = { start: number; end: number; kind: PeriodKind }
+export type PeriodSpan = { startAt: number; endAt: number; kind: PeriodKind }
 
 export interface BeijingTime {
   year: number
@@ -28,6 +29,7 @@ export interface PeriodInfo {
   holiday?: string
   beijing: BeijingTime
   calendarKnown: boolean
+  startedAt: number
   nextAt: number
   nextKind: PeriodKind
   windows: readonly TimeWindow[]
@@ -87,6 +89,17 @@ export function dayWindows(at: number): readonly TimeWindow[] {
 /** Find a real classification change, skipping weekends and entire holiday breaks. */
 export function getPeriodInfo(now = Date.now()): PeriodInfo {
   const current = classify(now)
+  let startedAt = current.beijing.midnight
+  findStart: for (let day = 0; day <= 370; day += 1) {
+    const midnight = current.beijing.midnight - day * DAY
+    for (const hour of [18, 14, 12, 9, 0]) {
+      const candidate = midnight + hour * HOUR
+      if (candidate <= now && classify(candidate - 1).kind !== current.kind) {
+        startedAt = candidate
+        break findStart
+      }
+    }
+  }
   for (let day = 0; day <= 370; day += 1) {
     const midnight = current.beijing.midnight + day * DAY
     for (const hour of [0, 9, 12, 14, 18]) {
@@ -94,11 +107,27 @@ export function getPeriodInfo(now = Date.now()): PeriodInfo {
       if (candidate <= now) continue
       const nextKind = classify(candidate).kind
       if (nextKind !== current.kind) {
-        return { ...current, now, nextAt: candidate, nextKind, windows: dayWindows(now) }
+        return { ...current, now, startedAt, nextAt: candidate, nextKind, windows: dayWindows(now) }
       }
     }
   }
   throw new RangeError('未找到下一个计费时段')
+}
+
+/** A rolling 24-hour horizon, clipped at both ends and merged across idle midnights. */
+export function upcomingPeriods(now: number): readonly PeriodSpan[] {
+  const endAt = now + DAY
+  beijingTime(now)
+  beijingTime(endAt)
+  const result: PeriodSpan[] = []
+  let cursor = now
+  while (cursor < endAt) {
+    const info = getPeriodInfo(cursor)
+    const end = Math.min(info.nextAt, endAt)
+    result.push({ startAt: cursor, endAt: end, kind: info.kind })
+    cursor = end
+  }
+  return result
 }
 
 export function formatCountdown(milliseconds: number): string {
@@ -114,6 +143,21 @@ export function shortCountdown(milliseconds: number): string {
   if (minutes < 60) return `${minutes} 分钟`
   const hours = Math.floor(minutes / 60)
   return minutes % 60 === 0 ? `${hours} 小时` : `${hours} 小时 ${minutes % 60} 分钟`
+}
+
+/** Compact toolbar duration, always a duration rather than an ambiguous clock time. */
+export function compactCountdown(milliseconds: number): string {
+  const seconds = Math.max(0, Math.ceil(milliseconds / 1000))
+  if (seconds < 60) return `${seconds}s`
+  const minutes = Math.ceil(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  if (hours >= 24) return `${Math.floor(hours / 24)}d ${hours % 24}h`
+  return hours ? `${hours}h ${minutes % 60}m` : `${minutes}m`
+}
+
+export function formatPeriodTime(at: number): string {
+  const value = beijingTime(at)
+  return `${value.month} 月 ${value.day} 日 ${String(value.hour).padStart(2, '0')}:${String(value.minute).padStart(2, '0')}`
 }
 
 export function formatNextTime(info: PeriodInfo): string {

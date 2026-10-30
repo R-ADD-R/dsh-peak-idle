@@ -37,14 +37,14 @@ export function createPeriodStore(options: StoreOptions = {}) {
         notice = {
           id: `switch-${info.kind}-${info.beijing.dateKey}-${info.beijing.hour}`,
           kind: info.kind,
-          message: info.kind === 'idle' ? '已进入空闲期，token 单价为繁忙期的 50%。' : '已进入繁忙期，当前按繁忙期 token 单价计费。',
+          message: info.kind === 'idle' ? '已进入空闲期，token 单价切换至空闲期价格。' : '已进入繁忙期，当前按繁忙期 token 单价计费。',
         }
         noticeExpires = at + 8_000
       } else if (info.nextKind !== 'unverified' && info.nextAt - at <= 300_000 && warnedAt !== info.nextAt) {
         warnedAt = info.nextAt
         notice = {
           id: `soon-${info.nextAt}`, kind: info.nextKind,
-          message: `即将在 5 分钟内进入${PERIOD_LABEL[info.nextKind]}。${info.nextKind === 'idle' ? 'token 单价将降至繁忙期的 50%。' : 'token 单价将切换为繁忙期价格。'}`,
+          message: `即将在 5 分钟内进入${PERIOD_LABEL[info.nextKind]}，token 单价将同步切换。`,
         }
         noticeExpires = at + 8_000
       }
