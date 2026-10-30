@@ -20,7 +20,8 @@ await build({
     name: 'inline-css',
     setup(builder) {
       builder.onLoad({ filter: /\.css\?inline$/ }, async args => ({
-        contents: await readFile(args.path.replace(/\?inline$/, ''), 'utf8'), loader: 'text',
+        // Text-loader assets must be byte-identical on Windows and Linux.
+        contents: (await readFile(args.path.replace(/\?inline$/, ''), 'utf8')).replace(/\r\n/g, '\n'), loader: 'text',
       }))
       builder.onResolve({ filter: /\.css\?inline$/ }, args => ({
         path: resolve(args.resolveDir, args.path),
