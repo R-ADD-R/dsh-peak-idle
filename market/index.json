@@ -16,8 +16,8 @@
         "zh": "峰谷时段提醒"
       },
       "description": {
-        "en": "DeepSeek billing-period chip, countdown and reminders beside the model selector.",
-        "zh": "在模型选择器旁显示 DeepSeek 计费时段、切换倒计时与提醒。"
+        "en": "Sun/moon indicator, remaining duration, a rolling 24-hour timeline, discount badge and official pricing link.",
+        "zh": "太阳／月亮、时段剩余时间、未来 24 小时时间轴、优惠标记及官方定价链接。"
       },
       "icon": "../icon.svg",
       "author": "R-ADD-R",
@@ -36,6 +36,18 @@
         "提醒"
       ],
       "versions": [
+        {
+          "version": "1.1.1",
+          "publishTimestamp": 1793381531,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/R-ADD-R/dsh-peak-idle",
+            "commit": "cb65b740a937699bc87b1b5e4d76a2a53550d501"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.2 <0.3.0"
+          }
+        },
         {
           "version": "1.0.0",
           "publishTimestamp": 1793282973,
