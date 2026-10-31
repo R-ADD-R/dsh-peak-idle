@@ -1,6 +1,6 @@
 {
   "name": "dsh-fg",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "DeepSeek Harness 峰谷提醒：太阳／月亮、剩余时间、蓝色优惠标记与官方定价链接。",
   "type": "module",
   "license": "MIT",

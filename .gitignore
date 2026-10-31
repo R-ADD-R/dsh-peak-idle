@@ -11,4 +11,5 @@ artifacts/
 .npmrc
 releases/*.tgz
 !releases/dsh-fg-1.1.1.tgz
+!releases/dsh-fg-1.1.2.tgz
 .DS_Store

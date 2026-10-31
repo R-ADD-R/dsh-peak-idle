@@ -45,7 +45,7 @@ test('shows one discount badge and a blue direct pricing link, without token pri
   await expect(dialog).not.toContainText('缓存')
   await expect(dialog).not.toContainText('¥')
   await expect(dialog).not.toContainText('Flash')
-  const link = page.getByRole('link', { name: 'Token 定价', exact: true })
+  const link = page.getByRole('link', { name: '模型&价格', exact: true })
   await expect(link).toHaveAttribute('href', BUNDLED_PRICING.source)
   await expect(link).toHaveAttribute('target', '_blank')
   const blue = await link.evaluate(el => getComputedStyle(el).getPropertyValue('--dsw-alias-state-business-primary').trim())

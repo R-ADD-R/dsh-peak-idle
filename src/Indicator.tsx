@@ -197,7 +197,7 @@ export function PeriodIndicator({ usePeriod, usePricing, refreshPrices, setRemin
       </HoverDetails>
       <PeriodTimeline now={info.now} active={detail} onActive={setDetail} />
       <div className="dsh-fg__pricing-summary">
-        <a className="dsh-fg__pricing-link" href={PRICING_URL} target="_blank" rel="noopener noreferrer">Token 定价<Icon name="external" width="11" height="11" /></a>
+        <a className="dsh-fg__pricing-link" href={PRICING_URL} target="_blank" rel="noopener noreferrer">模型&amp;价格<Icon name="external" width="11" height="11" /></a>
       </div>
     </section>, document.body)}
   </span>

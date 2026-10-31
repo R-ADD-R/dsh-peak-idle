@@ -2,14 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-DeepSeek Harness 的峰谷计费时段提醒插件。在**输入框工具栏、模型选择器左侧**显示太阳／月亮图标和当前时段的剩余时间，点击查看剩余时间、优惠标记及官方 Token 定价链接。
+DeepSeek Harness 的峰谷计费时段提醒插件。在**输入框工具栏、模型选择器左侧**显示太阳／月亮图标和当前时段的剩余时间，点击查看剩余时间、优惠标记及官方 模型&价格链接。
 
 Peak / idle billing-period indicator for DeepSeek Harness. Shows a minimal sun/moon icon and remaining duration next to the model selector. Click for a discount badge and a direct link to official token pricing; hover for secondary period details and reminder settings. Uses Beijing time and the bundled 2026 Chinese holiday calendar. No API key is required.
 
 ## 功能
 
 - 工具栏只显示太阳／月亮和剩余时长（如 `2h 34m`）；打开详情时变为 DSH 原生蓝色。
-- 主面板显示当前时段、剩余时间、未来 24 小时时间轴、一个简短的优惠标记（空闲期名称右侧显示“↓ 50%”），以及蓝色的“Token 定价”官网链接；不展示模型切换或价格明细。
+- 主面板显示当前时段、剩余时间、未来 24 小时时间轴、一个简短的优惠标记（空闲期名称右侧显示“↓ 50%”），以及蓝色的“模型&价格”官网链接；不展示模型切换或价格明细。
 - 倒计时下方显示从当前时刻起的未来 24 小时时段分布，使用北京时间刻度，跨天标注“明日”；悬停色块查看区间起止时间。
 - 悬停时间或优惠标记，展开起止时间、时段规则、计费比例和官网同步信息；键盘焦点或点击同样可展开。
 - 再次点击工具栏按钮、点击其他区域或按 Escape 关闭。二级信息打开时，Escape 先关闭二级信息。
@@ -23,7 +23,7 @@ Peak / idle billing-period indicator for DeepSeek Harness. Shows a minimal sun/m
 
 要求：DSH `0.2.1-rc.2` 或之后的兼容 `0.2.x` 版本。发布包包含编译产物，不需要用户安装开发依赖。
 
-直接下载 [dsh-fg-1.1.1.tgz 安装包](https://github.com/R-ADD-R/dsh-peak-idle/raw/refs/heads/main/releases/dsh-fg-1.1.1.tgz)，在 DSH 的 **插件 → 添加插件** 中填写下载文件的绝对路径。[SHA-256 校验值](releases/dsh-fg-1.1.1.tgz.sha256)随安装包提供。
+直接下载 [dsh-fg-1.1.2.tgz 安装包](https://github.com/R-ADD-R/dsh-peak-idle/raw/refs/heads/main/releases/dsh-fg-1.1.2.tgz)，在 DSH 的 **插件 → 添加插件** 中填写下载文件的绝对路径。[SHA-256 校验值](releases/dsh-fg-1.1.2.tgz.sha256)随安装包提供。
 
 在 DSH 桌面端打开 **插件 → 添加插件**，输入安装来源：
 
@@ -55,10 +55,10 @@ https://raw.githubusercontent.com/R-ADD-R/dsh-peak-idle/main/market/index.json
 
 ### 其他安装方式
 
-需要本地安装包时，在源码目录运行 `pnpm install --frozen-lockfile`、`pnpm pack:plugin`，生成 `releases/dsh-fg-1.1.1.tgz`。在 DSH 插件页填写该文件的绝对路径，或执行：
+需要本地安装包时，在源码目录运行 `pnpm install --frozen-lockfile`、`pnpm pack:plugin`，生成 `releases/dsh-fg-1.1.2.tgz`。在 DSH 插件页填写该文件的绝对路径，或执行：
 
 ```sh
-dsh plugin --profile desktop add ./dsh-fg-1.1.1.tgz
+dsh plugin --profile desktop add ./dsh-fg-1.1.2.tgz
 ```
 
 从已克隆的源码目录安装：
@@ -112,7 +112,7 @@ pnpm install --frozen-lockfile
 pnpm dev             # http://127.0.0.1:5173，交互位置预览
 pnpm publish:check   # 类型、构建、逻辑测试和发布文件校验
 pnpm test:ui         # 本地使用已安装的 Edge；CI 使用 Chromium
-pnpm pack:plugin    # 生成 releases/dsh-fg-1.1.1.tgz
+pnpm pack:plugin    # 生成 releases/dsh-fg-1.1.2.tgz
 ```
 
 本地预览可切换真实时间、繁忙期、空闲期、周末、节假日、即将切换和未知年份；周围界面为位置示意，插件组件与实际安装版本共用。
