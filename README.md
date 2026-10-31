@@ -41,10 +41,6 @@ dsh plugin --profile desktop add github:R-ADD-R/dsh-peak-idle
 
 Web 版使用 `--profile web`；自定义 profile 使用实际名称。GitHub 仓库与 DSH 插件名均为 `dsh-peak-idle`。
 
-**本项目只通过 GitHub 分发。** npm 发行已撤回，请使用上方的 GitHub 安装来源或 `.tgz` 安装包。
-
-旧版 `dsh-fg` 用户：先在 DSH 插件页移除旧插件，或执行 `dsh plugin --profile desktop remove dsh-fg`，再安装 `dsh-peak-idle`。这次更名保留原来的提醒偏好。
-
 ### 通过原生“发现”安装
 
 启用 DSH 实验性插件 **自定义插件索引（Custom plugin indexes）** 后，在“发现”中添加索引源：
