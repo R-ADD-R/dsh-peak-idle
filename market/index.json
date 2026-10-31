@@ -37,6 +37,18 @@
       ],
       "versions": [
         {
+          "version": "1.1.2",
+          "publishTimestamp": 1793469047,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/R-ADD-R/dsh-peak-idle",
+            "commit": "d886270ab772774e67860c33b3a45dcdf8eb11c1"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.2 <0.3.0"
+          }
+        },
+        {
           "version": "1.1.1",
           "publishTimestamp": 1793381831,
           "source": {
