@@ -6,4 +6,4 @@
 `imsai-sh/awesome-deepseek-harness-plugins` 时，只新增
 `catalog/plugins/r-add-r--dsh-peak-idle.json` 这一个文件；`$schema` 相对于目标目录解析。
 
-当前原生索引使用固定提交的 GitHub 来源。发布更新时同步索引版本、提交 SHA 和 `publishTimestamp`；切换为 npm 来源前，必须先完成对应 npm 版本的发布。
+本项目只通过 GitHub 分发。原生索引使用固定提交的 GitHub 来源，发布更新时同步索引版本、提交 SHA 和 `publishTimestamp`；不配置 npm 安装来源。

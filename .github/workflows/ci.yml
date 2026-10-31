@@ -19,7 +19,7 @@ jobs:
           node-version: '24'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm publish:check
+      - run: pnpm check:package
       - name: Ensure the checked-in client matches its sources
         run: git diff --exit-code -- lib/
       - run: pnpm exec playwright install --with-deps chromium
