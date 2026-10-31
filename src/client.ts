@@ -10,7 +10,7 @@ import { createPricingStore } from './pricing-store.ts'
 import { PRICING_ENDPOINT } from './pricing.ts'
 import stylesheet from './styles.css?inline'
 
-export const name = 'dsh-fg'
+export const name = 'dsh-peak-idle'
 export const inject = ['slots', 'connection']
 
 export function apply(ctx: Context): void {
@@ -34,12 +34,12 @@ export function apply(ctx: Context): void {
   })
 
   ctx.slots.inject('conversation.input.right', () => ctx.slots.register({
-    name: 'conversation.input.right', id: 'dsh-fg', order: 10,
+    name: 'conversation.input.right', id: 'dsh-peak-idle', order: 10,
     inject: () => ({ hooks: { period: store, pricing }, setReminders: store.setReminders, refreshPrices: pricing.refresh }),
   }, PeriodIndicator))
 
   ctx.slots.inject('shell.overlay', () => ctx.slots.register({
-    name: 'shell.overlay', id: 'dsh-fg-notice', order: 100,
+    name: 'shell.overlay', id: 'dsh-peak-idle-notice', order: 100,
     inject: () => ({ hooks: { period: store }, dismissNotice: store.dismissNotice }),
   }, PeriodNotice))
 }

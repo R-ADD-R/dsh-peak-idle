@@ -11,7 +11,7 @@ describe('DSH distributable', () => {
     let registration: { id: string; factory: (require: (id: string) => unknown) => Record<string, unknown> } | undefined
     const source = await readFile(new URL('../lib/client.js', import.meta.url), 'utf8')
     vm.runInNewContext(source, { window: { __ModuleLoader__: { load: (entry: typeof registration) => { registration = entry } } } })
-    assert.equal(registration?.id, 'dsh-fg')
+    assert.equal(registration?.id, 'dsh-peak-idle')
     const requested: string[] = []
     const modules: Record<string, unknown> = { react: React, 'react-dom': ReactDOM, 'react/jsx-runtime': jsx }
     const plugin = registration!.factory(id => { requested.push(id); assert.ok(id in modules, `unexpected external: ${id}`); return modules[id] })
@@ -28,7 +28,7 @@ describe('DSH distributable', () => {
     assert.equal(host.name, manifest.name)
     assert.equal(typeof host.apply, 'function')
     const patch = await readFile(new URL(manifest.dsh.bundle.patch, root), 'utf8')
-    assert.match(patch, /name: dsh-fg/)
+    assert.match(patch, /name: dsh-peak-idle/)
     await readFile(new URL(manifest.exports['./client'], root))
     for (const language of ['en', 'zh']) {
       const locale = JSON.parse(await readFile(new URL(`locale/${language}.json`, root), 'utf8'))

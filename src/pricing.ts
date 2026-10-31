@@ -1,6 +1,6 @@
 import { PRICING_URL } from './period.ts'
 
-export const PRICING_ENDPOINT = 'dsh-fg/pricing'
+export const PRICING_ENDPOINT = 'dsh-peak-idle/pricing'
 export const PRICE_TTL = 6 * 60 * 60 * 1000
 export const PRICE_CACHE_KEY = 'dsh-fg.pricing.v1'
 export type PriceKind = 'inputHit' | 'inputMiss' | 'output'

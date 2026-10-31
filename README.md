@@ -23,7 +23,7 @@ Peak / idle billing-period indicator for DeepSeek Harness. Shows a minimal sun/m
 
 要求：DSH `0.2.1-rc.2` 或之后的兼容 `0.2.x` 版本。发布包包含编译产物，不需要用户安装开发依赖。
 
-直接下载 [dsh-fg-1.1.2.tgz 安装包](https://github.com/R-ADD-R/dsh-peak-idle/raw/refs/heads/main/releases/dsh-fg-1.1.2.tgz)，在 DSH 的 **插件 → 添加插件** 中填写下载文件的绝对路径。[SHA-256 校验值](releases/dsh-fg-1.1.2.tgz.sha256)随安装包提供。
+直接下载 [dsh-peak-idle-1.1.3.tgz 安装包](https://github.com/R-ADD-R/dsh-peak-idle/raw/refs/heads/main/releases/dsh-peak-idle-1.1.3.tgz)，在 DSH 的 **插件 → 添加插件** 中填写下载文件的绝对路径。[SHA-256 校验值](releases/dsh-peak-idle-1.1.3.tgz.sha256)随安装包提供。
 
 在 DSH 桌面端打开 **插件 → 添加插件**，输入安装来源：
 
@@ -39,9 +39,11 @@ github:R-ADD-R/dsh-peak-idle
 dsh plugin --profile desktop add github:R-ADD-R/dsh-peak-idle
 ```
 
-Web 版使用 `--profile web`；自定义 profile 使用实际名称。仓库名为 `dsh-peak-idle`，DSH 插件内部包名为 `dsh-fg`。
+Web 版使用 `--profile web`；自定义 profile 使用实际名称。GitHub 仓库、npm 包与 DSH 插件名统一为 `dsh-peak-idle`。
 
-**npm 包名为 `dsh-fg`。** 对应版本发布到 npm 后，也可在插件页直接输入 `dsh-fg`，或执行 `dsh plugin --profile desktop add dsh-fg`。发布版本以 [npm 页面](https://www.npmjs.com/package/dsh-fg)为准；GitHub 来源不依赖 npm 发布。
+**npm 包名为 `dsh-peak-idle`。** 对应版本发布到 npm 后，也可在插件页直接输入 `dsh-peak-idle`，或执行 `dsh plugin --profile desktop add dsh-peak-idle`。发布版本以 [npm 页面](https://www.npmjs.com/package/dsh-peak-idle)为准；GitHub 来源不依赖 npm 发布。
+
+旧版 `dsh-fg` 用户：先在 DSH 插件页移除旧插件，或执行 `dsh plugin --profile desktop remove dsh-fg`，再安装 `dsh-peak-idle`。这次更名保留原来的提醒偏好。
 
 ### 通过原生“发现”安装
 
@@ -55,10 +57,10 @@ https://raw.githubusercontent.com/R-ADD-R/dsh-peak-idle/main/market/index.json
 
 ### 其他安装方式
 
-需要本地安装包时，在源码目录运行 `pnpm install --frozen-lockfile`、`pnpm pack:plugin`，生成 `releases/dsh-fg-1.1.2.tgz`。在 DSH 插件页填写该文件的绝对路径，或执行：
+需要本地安装包时，在源码目录运行 `pnpm install --frozen-lockfile`、`pnpm pack:plugin`，生成 `releases/dsh-peak-idle-1.1.3.tgz`。在 DSH 插件页填写该文件的绝对路径，或执行：
 
 ```sh
-dsh plugin --profile desktop add ./dsh-fg-1.1.2.tgz
+dsh plugin --profile desktop add ./dsh-peak-idle-1.1.3.tgz
 ```
 
 从已克隆的源码目录安装：
@@ -72,7 +74,7 @@ dsh plugin --profile desktop add ./dsh-peak-idle
 卸载：
 
 ```sh
-dsh plugin --profile desktop remove dsh-fg
+dsh plugin --profile desktop remove dsh-peak-idle
 ```
 
 ## 真实 DSH 截图
@@ -112,7 +114,7 @@ pnpm install --frozen-lockfile
 pnpm dev             # http://127.0.0.1:5173，交互位置预览
 pnpm publish:check   # 类型、构建、逻辑测试和发布文件校验
 pnpm test:ui         # 本地使用已安装的 Edge；CI 使用 Chromium
-pnpm pack:plugin    # 生成 releases/dsh-fg-1.1.2.tgz
+pnpm pack:plugin    # 生成 releases/dsh-peak-idle-1.1.3.tgz
 ```
 
 本地预览可切换真实时间、繁忙期、空闲期、周末、节假日、即将切换和未知年份；周围界面为位置示意，插件组件与实际安装版本共用。

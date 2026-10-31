@@ -1,12 +1,12 @@
 {
   "$schema": "../schema/plugin.schema.json",
   "id": "R-ADD-R/dsh-peak-idle",
-  "name": "dsh-fg",
+  "name": "dsh-peak-idle",
   "repository": "https://github.com/R-ADD-R/dsh-peak-idle",
   "category": "ui",
   "description": {
     "en": "A minimal sun/moon indicator with remaining billing-period duration, a blue discount badge, official token pricing link and optional reminders.",
     "zh": "在模型选择器旁显示太阳／月亮与时段剩余时间，提供蓝色优惠标记、官方 Token 定价链接及可选提醒。"
   },
-  "added": "2026-10-29"
+  "added": "2026-11-01"
 }

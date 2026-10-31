@@ -160,6 +160,6 @@ describe('DSH carrier route', () => {
     const result = await response.json()
     assert.equal(result.rpcId, 'retry-rpc')
     assert.equal(result.result.ok, false)
-    assert.equal(result.result.error.code, 'dsh-fg/pricing-unavailable')
+    assert.equal(result.result.error.code, 'dsh-peak-idle/pricing-unavailable')
   })
 })

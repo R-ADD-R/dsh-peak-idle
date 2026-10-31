@@ -21,7 +21,7 @@ export function createPricingRoute(source: { load(force: boolean): Promise<Prici
         return Response.json({ type: 'server-response', rpcId: body.rpcId, result: { ok: true, value } })
       } catch {
         return Response.json({ type: 'server-response', rpcId: body.rpcId, result: {
-          ok: false, error: { code: 'dsh-fg/pricing-unavailable', message: '官网价格暂时无法同步', details: {} },
+          ok: false, error: { code: 'dsh-peak-idle/pricing-unavailable', message: '官网价格暂时无法同步', details: {} },
         } })
       }
     },
