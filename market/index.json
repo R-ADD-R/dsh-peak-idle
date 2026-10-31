@@ -10,7 +10,7 @@
   },
   "plugins": [
     {
-      "name": "dsh-fg",
+      "name": "dsh-peak-idle",
       "title": {
         "en": "Peak & idle indicator",
         "zh": "峰谷时段提醒"
@@ -37,36 +37,12 @@
       ],
       "versions": [
         {
-          "version": "1.1.2",
-          "publishTimestamp": 1793469047,
+          "version": "1.1.3",
+          "publishTimestamp": 1793469904,
           "source": {
             "type": "git",
             "url": "https://github.com/R-ADD-R/dsh-peak-idle",
-            "commit": "d886270ab772774e67860c33b3a45dcdf8eb11c1"
-          },
-          "engines": {
-            "dsh": ">=0.2.1-rc.2 <0.3.0"
-          }
-        },
-        {
-          "version": "1.1.1",
-          "publishTimestamp": 1793381831,
-          "source": {
-            "type": "git",
-            "url": "https://github.com/R-ADD-R/dsh-peak-idle",
-            "commit": "b4f31de6f2ebadb94965700a804a47896a0f3b4e"
-          },
-          "engines": {
-            "dsh": ">=0.2.1-rc.2 <0.3.0"
-          }
-        },
-        {
-          "version": "1.0.0",
-          "publishTimestamp": 1793282973,
-          "source": {
-            "type": "git",
-            "url": "https://github.com/R-ADD-R/dsh-peak-idle",
-            "commit": "224e61d104f4e961e5217aa90ccbf2b9366be2c3"
+            "commit": "530acfe177e36b3d96884a59491c63e2156e4b26"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.2 <0.3.0"
